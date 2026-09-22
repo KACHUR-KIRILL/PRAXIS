@@ -17,6 +17,7 @@ The immediate objective is to close the unknowns that decide the MVP scope — c
 - [Carrier rules](roles/FOUNDER-COPILOT.md#7-carrier-rules).
 - [Project Start Protocol](standards/PROJECT-START-PROTOCOL-v0.1.md) — reused from STIMULUS; reuse log in its section 12.
 - [Current PRAXIS roadmap](roadmap/PRAXIS-ROADMAP-v0.1.md).
+- [U6 cost model](models/U6-UNIT-COST/README.md) — provisional model and channel cost per practitioner; not independently reviewed.
 - [Codex/OpenAI-compatible entry point](AGENTS.md) and [Claude entry point](CLAUDE.md).
 
 This README is navigation, not a second role contract or product specification.

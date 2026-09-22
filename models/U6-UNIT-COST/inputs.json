@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "question": "U6: model and channel cost per practitioner per month, under explicitly labelled assumptions about conversation volume",
+    "date": "2026-09-22",
+    "currency": "USD",
+    "labels": {
+      "SOURCE": "read from a dated primary source in this session",
+      "SECONDARY": "taken from research/ (search summaries of primary pages, not the pages themselves)",
+      "ASSUMPTION": "Co-Pilot assumption, no measurement behind it; to be replaced by pilot or practitioner data",
+      "OWNER": "Owner statement or estimate, not measured"
+    }
+  },
+
+  "model_prices": {
+    "label": "SOURCE",
+    "source": "https://platform.claude.com/docs/en/about-claude/pricing.md",
+    "retrieved": "2026-09-22",
+    "sha256_of_retrieved_page": "c1faa23e62e0989ce7780a4c5a31c08de237cb22938c00247519861458eb54f7",
+    "unit": "USD per million tokens, Claude API first-party standard rates",
+    "note": "Candidate tiers only; model choice is undecided (brief section 7). Non-Anthropic providers not priced: their pricing pages were blocked by the session proxy.",
+    "models": {
+      "claude-haiku-4-5": {"input": 1.00, "output": 5.00, "cache_write_1h": 2.00, "cache_read": 0.10, "tokenizer_factor": 1.0},
+      "claude-sonnet-5":  {"input": 2.00, "output": 10.00, "cache_write_1h": 4.00, "cache_read": 0.20, "tokenizer_factor": 1.3},
+      "claude-opus-5-5":  {"input": 4.00, "output": 20.00, "cache_write_1h": 8.00, "cache_read": 0.20, "tokenizer_factor": 1.3}
+    },
+    "tokenizer_factor_note": "SOURCE (same page): Claude 4.7 and later models use a tokenizer producing approximately 30% more tokens for the same text; exact increase depends on content. Token counts below are stated in the older tokenizer (Haiku 4.5) and multiplied by this factor. Russian-text ratio not measured."
+  },
+
+  "channels": {
+    "telegram_bot_api_per_message": {
+      "value": 0.0, "unit": "USD/message", "label": "SECONDARY",
+      "basis": "research/CHANNEL-POLICY-CHECK-2026-09-22.md section 3: Bot API free at MVP volumes; core.telegram.org blocked again on 2026-09-22"
+    },
+    "telegram_business_monthly": {
+      "value": 5.0, "unit": "USD/month per practitioner", "label": "ASSUMPTION",
+      "basis": "Only if the bot replies AS the practitioner's own account (Telegram Business). Gating behind a paid Premium subscription is unverified (research section 3); $5 is an assumed list-price order of magnitude, regional prices not checked."
+    },
+    "whatsapp_utility_template": {
+      "values": {"low": 0.005, "base": 0.01, "high": 0.03}, "unit": "USD/reminder message", "label": "SECONDARY + ASSUMPTION",
+      "basis": "research section 2: illustrative ~$0.01 utility (rate card for UA/KZ not read); low/high are assumed bounds. Comparison only."
+    },
+    "whatsapp_service_reply": {
+      "values": {"zero": 0.0, "hyp_0_002": 0.002, "hyp_0_005": 0.005}, "unit": "USD/agent reply in the 24h window", "label": "ASSUMPTION",
+      "basis": "research section 2: service replies reported free now and reported to become billable from 2026-10-01 with no rate found. Non-zero values are hypothetical sensitivity points, not rates."
+    }
+  },
+
+  "price_points": {
+    "values": [79, 149, 219, 400, 500],
+    "unit": "USD/month per practitioner",
+    "basis": "79/149/219: AI Beauty Bot tiers (SECONDARY, research/COMPETITOR-SCAN-2026-09-22.md, unconfirmed on vendor page). 400/500: Owner price assumption A2 (OWNER). Reference points, not a chosen price."
+  },
+
+  "parameters": {
+    "visits_per_month":        {"unit": "visits/month",        "label": "ASSUMPTION", "why": "solo practitioner, ~3-8 procedures per working day, ~20 working days"},
+    "dialogs_per_visit":       {"unit": "dialogs/visit",       "label": "ASSUMPTION", "why": "booking, rescheduling, reminder replies, aftercare questions and inquiries that never book, per booked visit"},
+    "client_msgs_per_dialog":  {"unit": "messages/dialog",     "label": "ASSUMPTION", "why": "client messages that each trigger one agent reply"},
+    "tool_calls_per_dialog":   {"unit": "extra calls/dialog",  "label": "ASSUMPTION", "why": "calendar lookups / booking writes, each an extra model round trip"},
+    "escalation_share":        {"unit": "share of dialogs",    "label": "ASSUMPTION", "why": "dialogs handed to the practitioner with a model-written summary (clinical questions, complaints, exceptions)"},
+    "reminders_per_visit":     {"unit": "messages/visit",      "label": "ASSUMPTION", "why": "deterministic template reminders; no model call assumed"},
+    "system_tokens":           {"unit": "tokens",              "label": "ASSUMPTION", "why": "role, practitioner voice, rules, disclosure and escalation policy"},
+    "kb_tokens":               {"unit": "tokens",              "label": "ASSUMPTION", "why": "practitioner knowledge base in the prompt: services, prices, preparation/aftercare, policies, FAQ"},
+    "tools_tokens":            {"unit": "tokens",              "label": "ASSUMPTION", "why": "tool definitions plus tool-use system prompt (the latter is 354-588 tokens per the pricing page)"},
+    "card_tokens":             {"unit": "tokens",              "label": "ASSUMPTION", "why": "client card injected into each call"},
+    "exchange_tokens":         {"unit": "tokens/exchange",     "label": "ASSUMPTION", "why": "one client message plus one agent reply, Russian text"},
+    "tool_result_tokens":      {"unit": "tokens/tool call",    "label": "ASSUMPTION", "why": "calendar slots or booking confirmation returned to the model"},
+    "output_tokens_per_reply": {"unit": "tokens/reply",        "label": "ASSUMPTION", "why": "visible reply plus any reasoning tokens, all billed as output"},
+    "output_tokens_per_tool_call": {"unit": "tokens/call",     "label": "ASSUMPTION", "why": "tool arguments"},
+    "aux_instruction_tokens":  {"unit": "tokens",              "label": "ASSUMPTION", "why": "short instruction for card-update and escalation-summary calls (no knowledge base)"},
+    "card_update_output_tokens": {"unit": "tokens/dialog",     "label": "ASSUMPTION", "why": "one card-update call per dialog"},
+    "escalation_output_tokens":  {"unit": "tokens/escalation", "label": "ASSUMPTION", "why": "summary sent to the practitioner"},
+    "overhead_multiplier":     {"unit": "x",                   "label": "ASSUMPTION", "why": "retries, guardrail/classifier calls, malformed turns"},
+    "cache_hit_rate":          {"unit": "share of static-prefix reads", "label": "ASSUMPTION", "why": "1-hour cache on the practitioner's static prefix (system + KB + tools), shared across all their dialogs; misses are billed as 1h writes"}
+  },
+
+  "scenarios": {
+    "low": {
+      "visits_per_month": 60, "dialogs_per_visit": 1.0, "client_msgs_per_dialog": 4, "tool_calls_per_dialog": 1,
+      "escalation_share": 0.10, "reminders_per_visit": 1,
+      "system_tokens": 2000, "kb_tokens": 2000, "tools_tokens": 1000, "card_tokens": 300,
+      "exchange_tokens": 100, "tool_result_tokens": 150, "output_tokens_per_reply": 150, "output_tokens_per_tool_call": 60,
+      "aux_instruction_tokens": 1000, "card_update_output_tokens": 200, "escalation_output_tokens": 200,
+      "overhead_multiplier": 1.05, "cache_hit_rate": 0.6
+    },
+    "base": {
+      "visits_per_month": 100, "dialogs_per_visit": 1.5, "client_msgs_per_dialog": 6, "tool_calls_per_dialog": 2,
+      "escalation_share": 0.20, "reminders_per_visit": 2,
+      "system_tokens": 3000, "kb_tokens": 5000, "tools_tokens": 1500, "card_tokens": 600,
+      "exchange_tokens": 150, "tool_result_tokens": 300, "output_tokens_per_reply": 250, "output_tokens_per_tool_call": 60,
+      "aux_instruction_tokens": 1000, "card_update_output_tokens": 300, "escalation_output_tokens": 200,
+      "overhead_multiplier": 1.15, "cache_hit_rate": 0.8
+    },
+    "high": {
+      "visits_per_month": 160, "dialogs_per_visit": 2.5, "client_msgs_per_dialog": 10, "tool_calls_per_dialog": 4,
+      "escalation_share": 0.35, "reminders_per_visit": 3,
+      "system_tokens": 5000, "kb_tokens": 12000, "tools_tokens": 2500, "card_tokens": 1500,
+      "exchange_tokens": 300, "tool_result_tokens": 600, "output_tokens_per_reply": 600, "output_tokens_per_tool_call": 60,
+      "aux_instruction_tokens": 1000, "card_update_output_tokens": 500, "escalation_output_tokens": 200,
+      "overhead_multiplier": 1.30, "cache_hit_rate": 0.9
+    }
+  },
+
+  "onboarding_one_off": {
+    "label": "ASSUMPTION",
+    "why": "brief interview with the practitioner and knowledge-base assembly, once per practitioner; reported separately, not monthly",
+    "input_tokens": 300000, "output_tokens": 40000
+  }
+}

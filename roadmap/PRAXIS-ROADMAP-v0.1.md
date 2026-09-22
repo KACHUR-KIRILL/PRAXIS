@@ -12,7 +12,7 @@ This roadmap applies the reusable `standards/PROJECT-START-PROTOCOL-v0.1.md` to 
 | --- | --- | --- | --- |
 | P0 | Identity & Control | **DONE at first commit** — repository, Owner, brief, roadmap, task source, contract, checker resolvable | — |
 | P1 | Brief / Concept | **ACTIVE** — brief v0.1 drafted from the 2026-09-22 intake; awaiting Owner review | P0 |
-| P2 | Critical Unknowns | **PREPARATORY** — first desk research on U1, U2 (channel policy) and U4 (alternatives) recorded in `research/` from secondary sources; primary-source confirmation, prioritization and Owner thresholds outstanding | P1 |
+| P2 | Critical Unknowns | **PREPARATORY** — first desk research on U1, U2 (channel policy) and U4 (alternatives) recorded in `research/` from secondary sources; U6 provisional cost calculation in `models/U6-UNIT-COST/` (assumption-based volumes, not independently reviewed); primary-source confirmation, Owner thresholds (U5, stop condition, H5) and Owner acceptance of the proposed prioritization outstanding; checkpoint in Issue #1 | P1 |
 | P3 | Validation Plan | **BLOCKED** | P2 |
 | P4 | Market Reality | **PARTIAL** — competitor scan recorded (`research/COMPETITOR-SCAN-2026-09-22.md`, secondary-sourced); willingness to pay untested | P2 |
 | P5 | MVP Definition | **BLOCKED** — needs P2 results and Owner acceptance thresholds | P2–P4 |
