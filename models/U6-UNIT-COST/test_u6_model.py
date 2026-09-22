@@ -60,6 +60,15 @@ class InputCompleteness(unittest.TestCase):
         for key, spec in self.inputs["parameters"].items():
             self.assertIn(spec["label"], labels, key)
 
+    def test_h5_min_price_meets_both_thresholds(self):
+        price = self.inputs["model_prices"]["models"]["claude-sonnet-5"]
+        need = u6_model.h5_min_price(self.inputs, price)
+        shares = self.inputs["h5_thresholds"]["max_share_of_price"]
+        for name, share in shares.items():
+            cost = u6_model.model_cost(self.inputs["scenarios"][name], price, True)
+            self.assertLessEqual(cost / need["binding"], share + 1e-12, name)
+        self.assertAlmostEqual(max(need["base"], need["high"]), need["binding"])
+
     def test_render_runs(self):
         text = u6_model.render(self.inputs)
         self.assertIn("## 2. Model cost per month", text)

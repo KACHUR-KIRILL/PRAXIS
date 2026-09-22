@@ -92,6 +92,17 @@ def onboarding_cost(onb: dict, price: dict) -> float:
     return f * (onb["input_tokens"] * price["input"] + onb["output_tokens"] * price["output"]) / MTOK
 
 
+def h5_min_price(inputs: dict, price: dict, channel_monthly: float = 0.0) -> dict:
+    """Lowest monthly price at which model (1h cache) + channel cost meets the Owner's H5 shares."""
+    shares = inputs["h5_thresholds"]["max_share_of_price"]
+    need = {
+        name: (model_cost(inputs["scenarios"][name], price, True) + channel_monthly) / share
+        for name, share in shares.items()
+    }
+    need["binding"] = max(need.values())
+    return need
+
+
 def fmt(x: float) -> str:
     return f"{x:,.2f}"
 
@@ -189,7 +200,23 @@ def render(inputs: dict) -> str:
         w(f"| {key} | {lo_v} | {fmt(lo_c)} | {hi_v} | {fmt(hi_c)} | {fmt(swing)} |")
     w("")
 
-    w("## 6. One-off onboarding per practitioner")
+    w("## 6. Lowest price meeting the Owner's H5 thresholds (1h cache)")
+    w("")
+    shares = inputs["h5_thresholds"]["max_share_of_price"]
+    w(f"H5 (OWNER, {inputs['h5_thresholds']['decided']}): model + channel <= {shares['base']:.0%} of price in the base scenario "
+      f"and <= {shares['high']:.0%} in the high (stress) scenario. The binding price is the larger of the two.")
+    w("")
+    w("| Model | Channel | Price needed, base | Price needed, high | Binding minimum price |")
+    w("| --- | --- | ---: | ---: | ---: |")
+    for mid, price in models.items():
+        for label, monthly in (("Telegram Bot API", 0.0), ("Telegram Business, assumed subscription", tg_business)):
+            need = h5_min_price(inputs, price, monthly)
+            w(f"| {mid} | {label} | {fmt(need['base'])} | {fmt(need['high'])} | {fmt(need['binding'])} |")
+    w("")
+    w("The high scenario compounds every parameter at its upper bound; the 50% rule therefore applies to a stress case, not a forecast.")
+    w("")
+
+    w("## 7. One-off onboarding per practitioner")
     w("")
     onb = inputs["onboarding_one_off"]
     w(f"Assumed {onb['input_tokens']:,} input and {onb['output_tokens']:,} output reference tokens, no caching.")

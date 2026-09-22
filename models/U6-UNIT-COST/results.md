@@ -86,7 +86,22 @@ Base cost: 26.14. Each row moves one parameter to its low / high scenario value,
 | tool_result_tokens | 150 | 26.00 | 600 | 26.41 | 0.40 |
 | escalation_share | 0.1 | 25.98 | 0.35 | 26.37 | 0.39 |
 
-## 6. One-off onboarding per practitioner
+## 6. Lowest price meeting the Owner's H5 thresholds (1h cache)
+
+H5 (OWNER, 2026-09-22, Owner decision recorded in Issue #1 and brief section 15): model + channel <= 15% of price in the base scenario and <= 50% in the high (stress) scenario. The binding price is the larger of the two.
+
+| Model | Channel | Price needed, base | Price needed, high | Binding minimum price |
+| --- | --- | ---: | ---: | ---: |
+| claude-haiku-4-5 | Telegram Bot API | 67.02 | 171.65 | 171.65 |
+| claude-haiku-4-5 | Telegram Business, assumed subscription | 100.36 | 181.65 | 181.65 |
+| claude-sonnet-5 | Telegram Bot API | 174.26 | 446.28 | 446.28 |
+| claude-sonnet-5 | Telegram Business, assumed subscription | 207.59 | 456.28 | 456.28 |
+| claude-opus-5-5 | Telegram Bot API | 330.34 | 826.13 | 826.13 |
+| claude-opus-5-5 | Telegram Business, assumed subscription | 363.67 | 836.13 | 836.13 |
+
+The high scenario compounds every parameter at its upper bound; the 50% rule therefore applies to a stress case, not a forecast.
+
+## 7. One-off onboarding per practitioner
 
 Assumed 300,000 input and 40,000 output reference tokens, no caching.
 

@@ -100,6 +100,13 @@
     }
   },
 
+  "h5_thresholds": {
+    "label": "OWNER",
+    "decided": "2026-09-22, Owner decision recorded in Issue #1 and brief section 15",
+    "max_share_of_price": {"base": 0.15, "high": 0.50},
+    "note": "Model + channel cost must be at most 15% of price in the base scenario and at most 50% in the stress (high) scenario."
+  },
+
   "onboarding_one_off": {
     "label": "ASSUMPTION",
     "why": "brief interview with the practitioner and knowledge-base assembly, once per practitioner; reported separately, not monthly",

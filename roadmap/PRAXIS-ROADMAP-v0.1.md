@@ -12,9 +12,9 @@ This roadmap applies the reusable `standards/PROJECT-START-PROTOCOL-v0.1.md` to 
 | --- | --- | --- | --- |
 | P0 | Identity & Control | **DONE at first commit** — repository, Owner, brief, roadmap, task source, contract, checker resolvable | — |
 | P1 | Brief / Concept | **ACTIVE** — brief v0.1 drafted from the 2026-09-22 intake; awaiting Owner review | P0 |
-| P2 | Critical Unknowns | **PREPARATORY** — first desk research on U1, U2 (channel policy) and U4 (alternatives) recorded in `research/` from secondary sources; U6 provisional cost calculation in `models/U6-UNIT-COST/` (assumption-based volumes, not independently reviewed); primary-source confirmation, Owner thresholds (U5, stop condition, H5) and Owner acceptance of the proposed prioritization outstanding; checkpoint in Issue #1 | P1 |
+| P2 | Critical Unknowns | **PREPARATORY** — first desk research on U1, U2 (channel policy) and U4 (alternatives) recorded in `research/` from secondary sources; U6 provisional cost calculation in `models/U6-UNIT-COST/` (assumption-based volumes, not independently reviewed); Owner set U5 and numeric stop conditions for H3, H5, U3 on 2026-09-22 (brief §15); U1 existing-account check in `research/U1-EXISTING-ACCOUNT-CHECK-2026-09-22.md` (Telegram mechanics from TDLib source, Meta from official-page excerpts); outstanding: Owner acceptance of the proposed prioritization, Telegram Premium check, independent U6 review; checkpoint in Issue #1 | P1 |
 | P3 | Validation Plan | **BLOCKED** | P2 |
-| P4 | Market Reality | **PARTIAL** — competitor scan recorded (`research/COMPETITOR-SCAN-2026-09-22.md`, secondary-sourced); willingness to pay untested | P2 |
+| P4 | Market Reality | **PARTIAL** — competitor scan recorded (`research/COMPETITOR-SCAN-2026-09-22.md`, secondary-sourced); willingness to pay untested; U3 prepayment test designed (`models/U3-PREPAY-OFFER/DESIGN.md`), awaiting Owner approval, nothing sent | P2 |
 | P5 | MVP Definition | **BLOCKED** — needs P2 results and Owner acceptance thresholds | P2–P4 |
 | P6 | Build vs Adopt | **BLOCKED** | P5 |
 | P7 | Build | **BLOCKED** — Owner's stated target: pilot-ready within about one month of 2026-09-22; a constraint, not a validated plan | P6 |
@@ -60,7 +60,7 @@ Target user, current alternatives and substitutes, competitors, distribution pat
 The MVP can be framed against a real user and real alternatives, or the project is explicitly held.
 
 ## P5 — MVP Definition
-The smallest real-world test of the most important hypothesis: target user, behavior to observe, minimum scope, excluded scope, primary metric, pass/fail/insufficient criteria. Co-Pilot's standing recommendation, pending Owner decision: one channel, conversation-to-booking, client card, reminders; content generation, supplier orders, photo assessment and B2C access excluded.
+The smallest real-world test of the most important hypothesis: target user, behavior to observe, minimum scope, excluded scope, primary metric, pass/fail/insufficient criteria. Scope accepted by the Owner on 2026-09-22 (brief §15): one channel, conversation-to-booking, client card, reminders; agent writes in the practitioner's voice with AI disclosure to the client; clinical questions go to the practitioner; content generation, supplier orders, photo assessment and B2C access excluded. The experiment definition (metrics, pass/fail) is still due at this stage; U5 thresholds are already set.
 
 Include a per-channel capability checklist (demonstrated? evidence link?) and the first eval set for agent replies — see [BOS gap scan](../research/BOS-OS-GAP-SCAN-2026-09-22.md), section 2.
 

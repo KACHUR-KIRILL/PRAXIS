@@ -8,7 +8,7 @@
 
 **Question.** For the recommended MVP scope (one channel, conversation up to booking, client card, reminders), how much do model API tokens and per-message channel fees cost for one practitioner per month, and what share of a reference price is that?
 
-**Decision it informs.** The price floor and margin behind H5, and which levers (model tier, prompt design, channel) matter. It does **not** decide H5: the Owner has not set the H5 threshold, so the output is cost and cost share, not "converges / does not converge".
+**Decision it informs.** The price floor and margin behind H5, and which levers (model tier, prompt design, channel) matter. The Owner set the H5 threshold on 2026-09-22 (model + channel ≤ 15% of price in the base scenario and ≤ 50% in the stress scenario; brief §15); section 5 converts it into the lowest price per model tier. No price has been chosen, so H5 still has no pass/fail verdict.
 
 **What is measured.** API token cost for three candidate Claude tiers (Haiku 4.5, Sonnet 5, Opus 5.5) at first-party list prices, and channel fees for Telegram (base case, per the Owner's instruction for this calculation on 2026-09-22) with WhatsApp as a comparison.
 
@@ -21,7 +21,7 @@
 1. Each client message triggers one model call carrying a static prefix (system prompt with practitioner voice and rules + the full knowledge base + tool definitions), the client card and the dialog history so far.
 2. Calendar lookups and booking writes are extra model round trips (`tool_calls_per_dialog`).
 3. One card-update call per dialog; one summary call per escalated dialog. Both use a short instruction without the knowledge base.
-4. Reminders are deterministic templates with no model call.
+4. Reminders are deterministic templates with no model call. On Telegram a business bot can reply only in chats with an incoming message in the last 24 hours ([U1 check](../../research/U1-EXISTING-ACCOUNT-CHECK-2026-09-22.md)), so reminders would go through a separate bot the client has started; Bot API messages are free, so the cost here is unchanged.
 5. One model for all calls. Prompt caching, when on, applies only to the static prefix with a 1-hour TTL: hits at the cache-read price, misses at the 1-hour write price (2x input). The growing dialog tail is not cached (conservative).
 6. An overhead multiplier covers retries, guardrail calls and malformed turns.
 
@@ -36,7 +36,7 @@ All inputs, units, labels and rationale are in [`inputs.json`](inputs.json). Lab
 | Claude prices, cache multipliers | SOURCE — platform.claude.com pricing page, retrieved 2026-09-22, sha256 `c1faa23e…eb54f7` | Haiku 4.5 $1/$5; Sonnet 5 $2/$10; Opus 5.5 $4/$20 per M input/output; 1h cache write 2x input; cache read 0.1x (0.05x on Opus 5.5) |
 | Tokenizer factor | SOURCE, same page — "approximately 30% more tokens" on 4.7+ models | 1.3 for Sonnet 5 and Opus 5.5; token sizes are stated in the Haiku 4.5 tokenizer. Ratio for Russian text not measured |
 | Telegram Bot API | SECONDARY — primary page blocked again | $0 |
-| Telegram Business (bot replies as the practitioner's account) | ASSUMPTION — Premium gating unverified | $5/month |
+| Telegram Business (bot replies as the practitioner's account) | ASSUMPTION — whether Premium is required is contradictory in sources ([U1 check](../../research/U1-EXISTING-ACCOUNT-CHECK-2026-09-22.md)); Premium price not verified | $5/month, only if Premium is required |
 | WhatsApp utility template | SECONDARY illustrative ~$0.01; bounds assumed | $0.005 / 0.01 / 0.03 per reminder |
 | WhatsApp service reply | ASSUMPTION — reported free now, reported billable from 2026-10-01, rate unknown | $0; hypothetical $0.002 and $0.005 as sensitivity only |
 | Visits per month | ASSUMPTION | 60 / 100 / 160 |
@@ -73,6 +73,16 @@ Channel, base scenario: Telegram $0 (or $5 with the assumed Business subscriptio
 
 Share of reference price, base scenario, cached: Sonnet 5 — 33% of $79, 12% of $219, 6.5% of $400, 5.2% of $500. Opus 5.5 — 63% of $79, 12% of $400. The price points are AI Beauty Bot tiers (secondary-sourced) and the Owner's $400–500 assumption A2; none is a chosen price.
 
+**Lowest price meeting the Owner's H5 thresholds** (1h cache, Telegram Bot API; `results.md` §6). The stress scenario is binding for every tier:
+
+| Model | Needed for base ≤ 15% | Needed for stress ≤ 50% | Minimum price |
+| --- | ---: | ---: | ---: |
+| Haiku 4.5 | 67 | 172 | **172** |
+| Sonnet 5 | 174 | 446 | **446** |
+| Opus 5.5 | 330 | 826 | **826** |
+
+With the assumed $5 Telegram subscription add about $10 to each minimum. The stress scenario compounds every parameter at its upper bound, so the 50% rule is strict; a measured volume distribution from the pilot would replace it.
+
 One-off onboarding (assumed 300k input / 40k output tokens): $0.50–2.60 depending on the model.
 
 ## 6. Co-Pilot reading (not an Owner decision)
@@ -83,7 +93,7 @@ One-off onboarding (assumed 300k input / 40k output tokens): $0.50–2.60 depend
 4. **The compounded high case exceeds the $79 anchor on every tier, exceeds $219 on Sonnet 5 and Opus 5.5, and reaches the $400–500 range on Opus 5.5.** If heavy-volume practitioners exist, a flat price needs a usage cap or tiering. Whether they exist is exactly what is unknown.
 5. **What would change these conclusions:** real dialogs per visit and messages per dialog (largest swings), the cheapest tier that passes the U5/H2 threshold, the achieved cache hit rate, and a verified WhatsApp rate if WhatsApp becomes the channel. The first two are measurable in the pilot at no extra cost if logged from day one.
 
-**H5 cannot be evaluated yet.** The Owner's threshold is missing. A usable form: "model + channel cost ≤ X% of price in the base scenario and ≤ Y% in the high scenario, on the cheapest tier that passes U5". Setting X and Y is the Owner's decision.
+**H5 with the Owner's thresholds (2026-09-22).** H5 is met at a given price only on tiers whose minimum price is at or below it: at $400 only Haiku 4.5 qualifies; at $500 Haiku 4.5 and Sonnet 5; Opus 5.5 needs more than $800. A price near competitor anchors ($79–219) meets H5 only with Haiku 4.5 at $172 or more. Which tier passes U5 is unknown until the pilot, so the price offered in the U3 test fixes which tiers remain affordable.
 
 ## 7. Limitations
 
@@ -100,7 +110,7 @@ One-off onboarding (assumed 300k input / 40k output tokens): $0.50–2.60 depend
 - **Code revision:** the commit that adds this directory (`git log -- models/U6-UNIT-COST`).
 - **Environment:** Python 3.11.15, standard library only; no randomness, no network.
 - **Commands (from repository root):**
-  - `python -B -m unittest discover -s models/U6-UNIT-COST -p "test_*.py" -v` → 7 tests passed, 2026-09-22.
+  - `python -B -m unittest discover -s models/U6-UNIT-COST -p "test_*.py" -v` → 8 tests passed, 2026-09-22 (7 at the first commit; the H5 test added with the Owner's thresholds).
   - `python -B models/U6-UNIT-COST/u6_model.py > models/U6-UNIT-COST/results.md`.
 - **Outputs:** [`results.md`](results.md).
 

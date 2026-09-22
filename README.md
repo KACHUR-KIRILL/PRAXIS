@@ -18,6 +18,8 @@ The immediate objective is to close the unknowns that decide the MVP scope — c
 - [Project Start Protocol](standards/PROJECT-START-PROTOCOL-v0.1.md) — reused from STIMULUS; reuse log in its section 12.
 - [Current PRAXIS roadmap](roadmap/PRAXIS-ROADMAP-v0.1.md).
 - [U6 cost model](models/U6-UNIT-COST/README.md) — provisional model and channel cost per practitioner; not independently reviewed.
+- [U1 existing-account check](research/U1-EXISTING-ACCOUNT-CHECK-2026-09-22.md) — can the agent answer in the practitioner's own Telegram, WhatsApp, Instagram accounts.
+- [U3 prepayment test design](models/U3-PREPAY-OFFER/DESIGN.md) — awaiting Owner approval; nothing sent.
 - [Codex/OpenAI-compatible entry point](AGENTS.md) and [Claude entry point](CLAUDE.md).
 
 This README is navigation, not a second role contract or product specification.
