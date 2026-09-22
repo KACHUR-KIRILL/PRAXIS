@@ -62,17 +62,23 @@ The MVP can be framed against a real user and real alternatives, or the project 
 ## P5 — MVP Definition
 The smallest real-world test of the most important hypothesis: target user, behavior to observe, minimum scope, excluded scope, primary metric, pass/fail/insufficient criteria. Co-Pilot's standing recommendation, pending Owner decision: one channel, conversation-to-booking, client card, reminders; content generation, supplier orders, photo assessment and B2C access excluded.
 
+Include a per-channel capability checklist (demonstrated? evidence link?) and the first eval set for agent replies — see [BOS gap scan](../research/BOS-OS-GAP-SCAN-2026-09-22.md), section 2.
+
 ### Exit criterion
 The MVP is defined as an experiment, not a miniature final platform.
 
 ## P6 — Build vs Adopt
 Inspect ready-made alternatives for every component (channel connectors, CRM substrate, scheduling, billing, content generation) and compare actual fit, speed, total cost, control, data boundaries and maintenance before custom implementation.
 
+Budget real accounts and API access for every compared tool; evaluation without live access produces unknowns (BOS lesson, see the gap scan, section 5).
+
 ### Exit criterion
 Material implementation choices have an explicit rationale proportional to their cost and reversibility.
 
 ## P7 — Build
 Only the MVP scope and its required evidence. Before real practitioners or their clients: data minimization and access restrictions, AI disclosure where required, escalation to the practitioner for clinical questions, and recovery without losing client conversations or bookings.
+
+Also due here, in minimal form: a prompt and context contract for the agent, an action boundary per external system, and two or three deterministic checks (gap scan, section 2). One real end-to-end conversation through a live bot comes before further scaffolding.
 
 ### Exit criterion
 The MVP can run the intended pilot and produce observable results.

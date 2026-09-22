@@ -108,6 +108,7 @@ The private repository is **KACHUR-KIRILL/PRAXIS**. GitHub Issues in that reposi
 | Platform entry points | Root `AGENTS.md`, `CLAUDE.md` | Thin, identical pointers to this contract and README. No restated mission, evidence policy or permissions. |
 | Project skills | `.agents/skills/<name>/SKILL.md` | Version reusable procedures here; this contract links the role's skills and states their triggers. A skill describes its use and limits without changing role authority. |
 | Product concept and product decisions | `product/` — currently `product/PRAXIS-BRIEF-v0.1.md` | The root README links the current concept carrier and its status. Owner-facing product artifacts keep the Owner's language; agent-facing instructions are English. A revision names what it supersedes and updates the README pointer in the same change. |
+| Task and defect format | `.github/ISSUE_TEMPLATE/task.md`, `.github/ISSUE_TEMPLATE/defect.md` | Templates for Issues, not a second task source. Record agent defects and Owner corrections as `defect` Issues; the third-occurrence rule in section 6 counts against them. |
 | Project sequence | `roadmap/PRAXIS-ROADMAP-v0.1.md` | Stages, dependencies and exit criteria. Issues remain the task state source. |
 | Reusable project-start protocol | `standards/PROJECT-START-PROTOCOL-v0.1.md` | Reused candidate; record reuse evidence in its section 12. |
 | Research | `research/`, created with the first substantive research artifact | Dated, source-backed findings with limitations and retrieval dates. |
