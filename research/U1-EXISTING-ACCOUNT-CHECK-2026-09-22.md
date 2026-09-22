@@ -34,9 +34,10 @@ Nothing here is legal advice.
 | Connecting a bot is listed as a Business feature, and Business features are listed as a Premium feature | A (schema) | `businessFeatureBots` — "The ability to connect a bot to the account"; `premiumFeatureBusiness` — "The ability to use Business features" |
 | The client library itself does not check Premium before connecting a bot; any gate is server-side | A | `BusinessManager::set_business_connected_bot` sends `account.updateConnectedBot` with no Premium check |
 | "Connecting a business bot does not require Telegram Premium" | B | search excerpt attributed to `core.telegram.org/api/bots/connected-business-bots` and related pages; page not opened |
+| The official Hermes plugin for Telegram Business lists "A Telegram **Business** subscription on your personal account" as a requirement | A (third-party code, maintained by Nous Research, not by Telegram) | `NousResearch/hermes-telegram-business` @`98c60af`, README, Requirements; added 2026-09-22 |
 | Premium price per country | not found | the Premium FAQ says prices vary by region and payment method |
 
-**Premium — unresolved.** The schema groups bot connection under Premium-linked Business features; an official-page excerpt says Premium is not required; enforcement is server-side and not visible in code. **Cheapest decisive check:** connect a test bot (from @BotFather) to a Telegram account without Premium in Settings → Telegram Business → Chatbots, if that menu is reachable without Premium. About 10 minutes, no cost, no third parties.
+**Premium — unresolved, leaning towards required.** The schema groups bot connection under Premium-linked Business features and the Hermes plugin README requires a Business subscription; an official-page excerpt says Premium is not required; enforcement is server-side and not visible in code. **Cheapest decisive check:** connect a test bot (from @BotFather) to a Telegram account without Premium in Settings → Telegram Business → Chatbots, if that menu is reachable without Premium. About 10 minutes, no cost, no third parties.
 
 **Consequences for the MVP:**
 - Replies to clients in the practitioner's own account: feasible.

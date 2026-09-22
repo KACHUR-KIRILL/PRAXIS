@@ -40,6 +40,14 @@ Hermes is `NousResearch/hermes-agent`, an external open-source agent runtime and
 
 **Reading for PRAXIS:** not a P6 candidate for the client-facing agent — it is a developer-facing agent CLI, not a messaging agent, and its security model is weaker than a bot handling third-party client data requires. P6 compares messaging SDKs and platforms, LLM providers and CRM/booking tools instead. If the Owner meant Hermes as a harness for *our own* development work, that is a separate question, not answered here.
 
+### Correction — 2026-09-22 (later the same day), after reading Hermes itself
+
+The reading above rests on BOS evidence about Hermes, not on Hermes. Checked against `NousResearch/hermes-agent` at commit `28aceb3451f5a5d2a27396b2adf29231be34c482` (2026-09-22) — `README.md`, `SECURITY.md`, `gateway/`, `plugin-catalog/` — and `NousResearch/hermes-telegram-business` at `98c60afc00d36c885bb040ebe973b1aa908886c0`:
+
+- **"Not a messaging agent" is wrong.** Hermes runs a messaging gateway ("Telegram, Discord, Slack, WhatsApp, Signal, and CLI — all from a single gateway process"), has a WhatsApp Cloud API adapter (`gateway/platforms/whatsapp_cloud.py`) next to an unofficial Baileys bridge, a cron scheduler with delivery to any platform, and an official plugin `hermes-telegram-business` (tier `official`): a Telegram Business "secretary bot" that drafts a reply to each customer message and sends it only after the owner taps Send.
+- **The security point stands in a narrower form.** `SECURITY.md` §2: Hermes is "a single-tenant personal agent"; "the only security boundary against an adversarial LLM is the operating system"; whole-process wrapping (Hermes' Docker image or NVIDIA OpenShell) "is the supported posture when the agent ingests content from … multi-user channels". Serving a practitioner's clients is such a channel: supportable, but only inside a per-practitioner sandbox.
+- **Revised reading:** Hermes **is a P6 candidate** for the Telegram part of the MVP, not rejected. Gaps against the MVP, from the plugin's own README: no auto-send by design, no conversation history ("each customer message is drafted in isolation"), text only; no booking, calendar or client card; one instance per practitioner. The Baileys bridge is excluded by contract §5 (unofficial WhatsApp automation). Anthropic model support was not checked. Nothing was installed or run.
+
 ## 5. Lessons from BOS evidence
 
 - **Scaffolding is not a working system.** `deploy/AUTOMATION_MVP.md`, section "Что построено, и чем оно не является": no platform routine was created, no key provisioned, and no end-to-end run of even two tasks was carried out. For PRAXIS P7: one real end-to-end conversation through a live Telegram bot comes before more contracts, schemas or checks.
